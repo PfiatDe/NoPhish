@@ -186,6 +186,42 @@ case "$1" in
 	do
 		echo $value
 	done
+
+       #Generate the monit.html file, as basic monitoring solution
+               cat <<EOF > ./monit.html
+<!DOCTYPE html>
+<html lang="de">
+<head>
+        <meta charset="UTF-8">
+        <title>Beispiel HTML5 Grundgerüst - www.html-seminar.de</title>
+        <meta name="description" content="Kurzbeschreibung">
+        <link href="design.css" rel="stylesheet">
+    <style>
+        #wrap { width: 700px; height: 400px; padding: 0; overflow: hidden; }
+        #frame { width: 1400px; height: 800px; border: 1px solid black; }
+        #frame {
+            -ms-zoom: 0.5;
+            -moz-transform: scale(0.5);
+            -moz-transform-origin: 0 0;
+            -o-transform: scale(0.5);
+            -o-transform-origin: 0 0;
+            -webkit-transform: scale(0.5);
+            -webkit-transform-origin: 0 0;
+        }
+    </style>
+</head>
+<body>
+EOF
+
+        for value in "${urls[@]}"
+        do
+                echo "<a href=\"$value\">$value</a></br>" >> ./monit.html
+                echo "<div id=\"wrap\"><iframe id=\"frame\" src=\"$value&view_only=true\" title=\"$value\"></iframe></div>"  >> ./monit.html
+        done
+        cat <<EOF >> ./monit.html
+</body>
+</html>
+EOF
 	
 	printf "[-] Starting Loop to collect sessions and cookies from containers\n" 
 	#Start a loop which copies the cookies from the containers
